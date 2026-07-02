@@ -143,10 +143,10 @@ export default function BookDetailView({ book, author }: Props) {
               />
             </div>
             <div className="flex gap-2 mt-4">
-              <button className="flex-1 py-2 bg-gray-100 text-gray-800 text-xs font-semibold rounded-lg hover:bg-gray-200 transition-colors">
+              <button className="btn-press flex-1 py-2 bg-gray-100 text-gray-800 text-xs font-semibold rounded-lg hover:bg-gray-200 transition-colors">
                 Read
               </button>
-              <button className="flex-1 py-2 bg-gray-900 text-white text-xs font-semibold rounded-lg hover:bg-gray-700 transition-colors flex items-center justify-center gap-1">
+              <button className="btn-press flex-1 py-2 bg-gray-900 text-white text-xs font-semibold rounded-lg hover:bg-gray-700 transition-colors flex items-center justify-center gap-1">
                 Chat Now
               </button>
             </div>

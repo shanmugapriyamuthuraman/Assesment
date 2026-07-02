@@ -45,7 +45,7 @@ export default function HeroBanner() {
           border: "1px solid rgba(233, 233, 233, 1)",
         }}
       >
-        <div className="flex-1 max-w-xs">
+        <div className="flex-1 max-w-xs animate-fade-in">
           <h1 className="text-xl md:text-2xl font-bold text-gray-900 leading-snug">
             {slide.title}{" "}
             <span className="italic font-light">{slide.titleHighlight}</span>

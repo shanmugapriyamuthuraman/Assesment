@@ -57,13 +57,13 @@ export default function FamousAuthors() {
         className="flex gap-5 overflow-x-auto scrollbar-hide pb-2">
         {famousAuthors.map((author, i) => (
           <Link key={i} href={`/author/${author.id}`} className="flex-shrink-0 flex flex-col items-center gap-2 group">
-            <div className="w-[80px] h-[80px] rounded-xl overflow-hidden border-2 border-transparent group-hover:border-amber-400 transition-colors bg-gray-100">
+            <div className="w-[80px] h-[80px] rounded-xl overflow-hidden border-2 border-transparent group-hover:border-amber-400 transition-all duration-200 bg-gray-100 group-hover:shadow-md group-hover:-translate-y-0.5">
               <Image
                 src={author.photo}
                 alt={author.name}
                 width={80}
                 height={80}
-                className="object-cover w-full h-full"
+                className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-110"
               />
             </div>
             <span className="text-[11px] text-gray-600 text-center w-20 truncate group-hover:text-gray-900 transition-colors">

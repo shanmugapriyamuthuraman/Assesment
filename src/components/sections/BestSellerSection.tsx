@@ -76,42 +76,41 @@ const bestSellers: {
 
 function BestSellerCard({ item }: { item: (typeof bestSellers)[0] }) {
   const [wishlisted, setWishlisted] = useState(false);
+  const [beating, setBeating] = useState(false);
+
+  const toggleWishlist = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setWishlisted(!wishlisted);
+    setBeating(true);
+    setTimeout(() => setBeating(false), 350);
+  };
 
   return (
-    /* flex-col + h-full so every card stretches to the same row height */
     <div className="flex-shrink-0 w-[155px] flex flex-col group">
-      {/* Cover */}
       <Link href={`/book/${item.id}`} className="block">
-        <div className="relative w-full h-[210px] rounded-xl overflow-hidden bg-gray-100 shadow-sm group-hover:shadow-md transition-shadow">
+        <div className="relative w-full h-[210px] rounded-xl overflow-hidden bg-gray-100 shadow-sm group-hover:shadow-lg transition-all duration-300">
           <Image
             src={item.cover}
             alt={item.title}
             fill
-            className="object-cover"
+            className="object-cover transition-transform duration-300 group-hover:scale-105"
             sizes="155px"
           />
           <button
-            onClick={(e) => {
-              e.preventDefault();
-              setWishlisted(!wishlisted);
-            }}
-            className="absolute top-2 right-2 w-6 h-6 bg-white rounded-full flex items-center justify-center shadow"
+            onClick={toggleWishlist}
+            className="absolute top-2 right-2 w-6 h-6 bg-white/90 rounded-full flex items-center justify-center shadow opacity-0 group-hover:opacity-100 transition-all duration-200 hover:scale-110"
           >
             <Heart
               size={12}
-              className={
-                wishlisted ? "fill-red-500 text-red-500" : "text-gray-400"
-              }
+              className={`transition-colors duration-200 ${beating ? "heart-beat" : ""} ${wishlisted ? "fill-red-500 text-red-500" : "text-gray-400"}`}
             />
           </button>
         </div>
       </Link>
 
-      {/* Info — flex-1 pushes button to the same row across all cards */}
       <div className="mt-2 px-0.5 flex flex-col flex-1">
         <Link href={`/book/${item.id}`}>
-          {/* Fixed height for title — always 2 lines regardless of length */}
-          <p className="text-[12px] font-semibold text-gray-800 leading-tight h-[34px] line-clamp-2">
+          <p className="text-[12px] font-semibold text-gray-800 leading-tight h-[34px] line-clamp-2 hover:text-gray-600 transition-colors">
             {item.title}
           </p>
         </Link>
@@ -120,9 +119,8 @@ function BestSellerCard({ item }: { item: (typeof bestSellers)[0] }) {
             {item.author}
           </p>
         </Link>
-        {/* mt-auto ensures button always sits at the same level */}
         <Link href={`/book/${item.id}`} className="mt-auto pt-2 block">
-          <button className="w-full py-2 bg-gray-900 text-white text-[11px] font-medium rounded-lg hover:bg-gray-700 transition-colors">
+          <button className="btn-press w-full py-2 bg-gray-900 text-white text-[11px] font-medium rounded-lg hover:bg-gray-700 transition-colors">
             Read &amp; Chat
           </button>
         </Link>

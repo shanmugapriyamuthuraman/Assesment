@@ -13,6 +13,7 @@ interface BookCardProps {
 
 export default function BookCard({ book, size = "md" }: BookCardProps) {
   const [wishlisted, setWishlisted] = useState(false);
+  const [beating, setBeating] = useState(false);
 
   const dimensions = {
     sm: { w: 100, h: 140, cardW: "w-[100px]", imgH: "h-[140px]" },
@@ -20,36 +21,38 @@ export default function BookCard({ book, size = "md" }: BookCardProps) {
     lg: { w: 150, h: 210, cardW: "w-[150px]", imgH: "h-[210px]" },
   }[size];
 
+  const toggleWishlist = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setWishlisted(!wishlisted);
+    setBeating(true);
+    setTimeout(() => setBeating(false), 350);
+  };
+
   return (
-    <div className={`${dimensions.cardW} flex-shrink-0 group`}>
+    <div className={`${dimensions.cardW} flex-shrink-0 group animate-fade-in`}>
       <Link href={`/book/${book.id}`}>
         <div className="relative">
           <div
-            className={`relative ${dimensions.imgH} w-full rounded-lg overflow-hidden bg-gray-100 shadow-sm group-hover:shadow-md transition-shadow`}
+            className={`relative ${dimensions.imgH} w-full rounded-lg overflow-hidden bg-gray-100 shadow-sm group-hover:shadow-lg transition-all duration-300`}
           >
             <Image
               src={book.cover}
               alt={book.title}
               fill
-              className="object-cover"
+              className="object-cover transition-transform duration-300 group-hover:scale-105"
               sizes="(max-width: 768px) 100px, 150px"
             />
-            {/* Overlay on hover */}
-            <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+            <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           </div>
 
-          {/* Wishlist button */}
           <button
-            onClick={(e) => {
-              e.preventDefault();
-              setWishlisted(!wishlisted);
-            }}
-            className="absolute top-2 right-2 p-1 rounded-full bg-white/90 shadow-sm opacity-0 group-hover:opacity-100 transition-opacity"
+            onClick={toggleWishlist}
+            className="absolute top-2 right-2 p-1.5 rounded-full bg-white/90 shadow-sm opacity-0 group-hover:opacity-100 transition-all duration-200 hover:bg-white hover:scale-110"
             aria-label="Add to wishlist"
           >
             <Heart
               size={12}
-              className={wishlisted ? "fill-red-500 text-red-500" : "text-gray-600"}
+              className={`transition-colors duration-200 ${beating ? "heart-beat" : ""} ${wishlisted ? "fill-red-500 text-red-500" : "text-gray-600"}`}
             />
           </button>
         </div>
@@ -63,7 +66,7 @@ export default function BookCard({ book, size = "md" }: BookCardProps) {
           <p className="text-[10px] text-gray-400 mt-0.5 truncate">{book.author}</p>
         </Link>
         <Link href={`/book/${book.id}`}>
-          <button className="mt-2 w-full py-1.5 bg-gray-900 text-white text-[10px] font-medium rounded-md hover:bg-gray-700 transition-colors">
+          <button className="btn-press mt-2 w-full py-1.5 bg-gray-900 text-white text-[10px] font-medium rounded-md hover:bg-gray-700 transition-colors">
             Read &amp; Chat
           </button>
         </Link>

@@ -27,7 +27,7 @@ export default function RootLayout({
           // style={{ background: "rgba(255, 248, 220, 1)" }}
         >
           <Header />
-          <main>{children}</main>
+          <main className="animate-fade-in">{children}</main>
           <Footer />
         </div>
       </body>

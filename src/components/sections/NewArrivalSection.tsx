@@ -3,7 +3,7 @@
 import { useRef, useState } from "react";
 import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Heart } from "lucide-react";
 
 import Img1 from "@/assets/NewArrivalImg1.png";
 import Img2 from "@/assets/NewArrivalImg2.png";
@@ -81,18 +81,39 @@ const newArrivals: {
 ];
 
 function NewArrivalCard({ item }: { item: (typeof newArrivals)[0] }) {
+  const [wishlisted, setWishlisted] = useState(false);
+  const [beating, setBeating] = useState(false);
+
+  const toggleWishlist = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setWishlisted(!wishlisted);
+    setBeating(true);
+    setTimeout(() => setBeating(false), 350);
+  };
+
   return (
     <Link href={`/book/${item.id}`} className="flex-shrink-0 w-[155px] group">
-      <div className="relative w-full h-[220px] rounded-2xl overflow-hidden shadow-sm group-hover:shadow-md transition-shadow">
+      <div className="relative w-full h-[220px] rounded-2xl overflow-hidden shadow-sm group-hover:shadow-lg transition-all duration-300">
         <Image
           src={item.cover}
           alt={item.title}
           fill
-          className="object-cover"
+          className="object-cover transition-transform duration-300 group-hover:scale-105"
           sizes="155px"
         />
         {/* Bottom gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+        {/* Wishlist button */}
+        <button
+          onClick={toggleWishlist}
+          className="absolute top-2 right-2 w-7 h-7 bg-white/90 rounded-full flex items-center justify-center shadow opacity-0 group-hover:opacity-100 transition-all duration-200 hover:scale-110"
+          aria-label="Wishlist"
+        >
+          <Heart
+            size={13}
+            className={`transition-colors duration-200 ${beating ? "heart-beat" : ""} ${wishlisted ? "fill-red-500 text-red-500" : "text-gray-500"}`}
+          />
+        </button>
         {/* Text at bottom */}
         <div className="absolute bottom-0 left-0 right-0 px-3 pb-3">
           <p className="text-white text-[11px] font-semibold leading-tight line-clamp-2">

@@ -47,12 +47,46 @@ export default function Sidebar() {
       {/* Mobile overlay */}
       {mobileOpen && (
         <div
-          className="md:hidden fixed inset-0 bg-black/30 z-30"
+          className="md:hidden fixed inset-0 bg-black/30 z-30 overlay-fade"
           onClick={() => setMobileOpen(false)}
         />
       )}
 
-      {/* Sidebar column */}
+      {/* Mobile sidebar panel */}
+      {mobileOpen && (
+        <div className="md:hidden fixed left-0 top-0 h-screen w-[75vw] max-w-[280px] z-40 flex flex-col pt-[34px] pb-6 px-[20px] bg-transparent sidebar-slide-in">
+          <div
+            style={{
+              background: "rgba(255, 251, 231, 1)",
+              borderRadius: "12px",
+              border: "1px solid rgba(0,0,0,0.07)",
+              padding: "20px 12px",
+              overflowY: "auto",
+              maxHeight: "calc(100vh - 34px - 24px)",
+            }}
+          >
+            <div className="mb-6 px-2">
+              <Link href="/" onClick={() => setMobileOpen(false)} className="flex items-center gap-2.5">
+                <Image src={logo} alt="Chai Reader" height={36} width={130} className="object-contain" priority />
+              </Link>
+            </div>
+            <nav>
+              {navItems.map((item) => {
+                const isActive = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
+                return (
+                  <Link key={item.href} href={item.href} onClick={() => setMobileOpen(false)}
+                    className={`flex items-center gap-3 px-3 py-2.5 rounded-xl mb-0.5 text-[13px] font-medium transition-all duration-150 ${isActive ? "bg-white text-gray-900 shadow-sm" : "text-gray-500 hover:bg-white/50 hover:text-gray-800"}`}>
+                    <Image src={item.icon} alt={item.label} width={18} height={18} className={`object-contain ${isActive ? "opacity-100" : "opacity-50"}`} />
+                    {item.label}
+                  </Link>
+                );
+              })}
+            </nav>
+          </div>
+        </div>
+      )}
+
+      {/* Desktop sidebar column */}
       <aside
         className="hidden md:flex fixed left-0 top-0 h-screen w-1/5 z-40 flex-col pt-[34px] pb-6 px-[20px] bg-transparent"
       >
