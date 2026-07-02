@@ -1,10 +1,16 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import { BookOpen } from "lucide-react";
 import FooterImg from "@/assets/FooterImg.png";
 import logo from "@/assets/Simplification.png";
+import { usePathname } from "next/navigation";
 
 export default function Footer() {
+  const pathname = usePathname();
+  if (pathname.startsWith("/book/") || pathname.startsWith("/author/")) return null;
+
   return (
     <footer
       className="border-t border-gray-100  w-full"

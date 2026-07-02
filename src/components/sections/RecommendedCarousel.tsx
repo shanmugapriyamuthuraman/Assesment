@@ -85,7 +85,7 @@ export default function RecommendedCarousel() {
               </p>
 
               {/* Books row */}
-              <div className="flex gap-4 pb-2">
+              <div className="flex gap-4 pb-2 overflow-x-auto scrollbar-hide">
                 {card.books.map((book) => (
                   <div
                     key={book.id}

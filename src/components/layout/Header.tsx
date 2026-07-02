@@ -1,7 +1,6 @@
 "use client";
 
-import { Search, Heart, ShoppingCart, BookOpen } from "lucide-react";
-import Link from "next/link";
+import { Search, Heart, ShoppingCart } from "lucide-react";
 import { useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 
@@ -17,21 +16,14 @@ export default function Header() {
     }
   };
 
-  if (pathname.startsWith("/book/")) return null;
+  if (pathname.startsWith("/book/") || pathname.startsWith("/author/"))
+    return null;
 
   return (
     <header
       className="sticky top-0 z-20 h-16 flex items-center px-4 md:px-6 gap-4 border-b border-[rgba(255,228,207,0.5)]"
       style={{ background: "rgba(255, 253, 243, 1)" }}
     >
-      {/* Mobile logo */}
-      <Link href="/" className="md:hidden flex items-center gap-2 ml-10">
-        <div className="w-7 h-7 bg-amber-700 rounded-lg flex items-center justify-center">
-          <BookOpen size={14} className="text-white" />
-        </div>
-        <span className="font-bold text-sm text-gray-900">Chai Reader</span>
-      </Link>
-
       {/* Search bar */}
       <form
         onSubmit={handleSearch}

@@ -3,34 +3,46 @@
 import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
 import { useState, useRef } from "react";
-import { Heart, ChevronLeft, ChevronRight } from "lucide-react";
+import { Heart, ChevronLeft, ChevronRight, ShoppingCart } from "lucide-react";
 import { Author, Book } from "@/types";
 
 import AuthorDetailsImg from "@/assets/AuthorDetailsImg.png";
+import readMoreIcon from "@/assets/readMoreArrow.png";
 import FamImg1 from "@/assets/FamousAuthorImg1.png";
 import FamImg2 from "@/assets/FamousAuthorImg2.png";
 import FamImg3 from "@/assets/FamousAuthorImg3.png";
 import FamImg4 from "@/assets/FamousAuthorImg4.png";
 import FamImg5 from "@/assets/FamousAuthorImg5.png";
 
-import NR1  from "@/assets/NewReleaseImg1.png";
-import NR2  from "@/assets/NewReleaseImg2.png";
-import NR3  from "@/assets/NewReleaseImg3.png";
-import NR4  from "@/assets/NewReleaseImg4.png";
-import NR5  from "@/assets/NewReleaseImg5.png";
-import NR6  from "@/assets/NewReleaseImg6.png";
-import NR7  from "@/assets/NewReleaseImg7.png";
-import NR8  from "@/assets/NewReleaseImg8.png";
-import NR9  from "@/assets/NewReleaseImg9.png";
+import NR1 from "@/assets/NewReleaseImg1.png";
+import NR2 from "@/assets/NewReleaseImg2.png";
+import NR3 from "@/assets/NewReleaseImg3.png";
+import NR4 from "@/assets/NewReleaseImg4.png";
+import NR5 from "@/assets/NewReleaseImg5.png";
+import NR6 from "@/assets/NewReleaseImg6.png";
+import NR7 from "@/assets/NewReleaseImg7.png";
+import NR8 from "@/assets/NewReleaseImg8.png";
+import NR9 from "@/assets/NewReleaseImg9.png";
 import NR10 from "@/assets/NewReleaseImg10.png";
 
-const newReleaseImgs: StaticImageData[] = [NR1, NR2, NR3, NR4, NR5, NR6, NR7, NR8, NR9, NR10];
+const newReleaseImgs: StaticImageData[] = [
+  NR1,
+  NR2,
+  NR3,
+  NR4,
+  NR5,
+  NR6,
+  NR7,
+  NR8,
+  NR9,
+  NR10,
+];
 
 const authorPhotoMap: Record<string, StaticImageData> = {
-  "jk-rowling":    AuthorDetailsImg,
+  "jk-rowling": AuthorDetailsImg,
   "chetan-bhagat": FamImg2,
   "arundhati-roy": FamImg4,
-  "ruskin-bond":   FamImg5,
+  "ruskin-bond": FamImg5,
   "morgan-housel": FamImg3,
   "george-bellairs": FamImg1,
 };
@@ -41,13 +53,22 @@ interface Props {
 }
 
 /* ── Carousel row of portrait book cards ── */
-function BookCarouselRow({ imgs, books }: { imgs: StaticImageData[]; books: Book[] }) {
+function BookCarouselRow({
+  imgs,
+  books,
+}: {
+  imgs: StaticImageData[];
+  books: Book[];
+}) {
   const scrollRef = useRef<HTMLDivElement>(null);
-  const [canLeft,  setCanLeft]  = useState(false);
+  const [canLeft, setCanLeft] = useState(false);
   const [canRight, setCanRight] = useState(true);
 
   const scroll = (dir: "left" | "right") =>
-    scrollRef.current?.scrollBy({ left: dir === "right" ? 340 : -340, behavior: "smooth" });
+    scrollRef.current?.scrollBy({
+      left: dir === "right" ? 340 : -340,
+      behavior: "smooth",
+    });
 
   const onScroll = () => {
     if (!scrollRef.current) return;
@@ -61,20 +82,29 @@ function BookCarouselRow({ imgs, books }: { imgs: StaticImageData[]; books: Book
       <div className="flex items-center justify-between mb-1">
         <h2 className="text-base font-bold text-gray-900">Our New Releases</h2>
         <div className="flex gap-1.5">
-          <button onClick={() => scroll("left")} disabled={!canLeft}
-            className="w-7 h-7 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
+          <button
+            onClick={() => scroll("left")}
+            disabled={!canLeft}
+            className="w-7 h-7 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+          >
             <ChevronLeft size={14} />
           </button>
-          <button onClick={() => scroll("right")} disabled={!canRight}
-            className="w-7 h-7 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
+          <button
+            onClick={() => scroll("right")}
+            disabled={!canRight}
+            className="w-7 h-7 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+          >
             <ChevronRight size={14} />
           </button>
         </div>
       </div>
       <p className="text-xs text-gray-400 mb-4">Trending books among readers</p>
 
-      <div ref={scrollRef} onScroll={onScroll}
-        className="flex items-stretch gap-4 overflow-x-auto scrollbar-hide pb-2">
+      <div
+        ref={scrollRef}
+        onScroll={onScroll}
+        className="flex items-stretch gap-4 overflow-x-auto scrollbar-hide pb-2"
+      >
         {imgs.map((img, i) => {
           const book = books[i % Math.max(books.length, 1)];
           return <PortraitCard key={i} img={img} book={book} />;
@@ -90,16 +120,35 @@ function PortraitCard({ img, book }: { img: StaticImageData; book: Book }) {
     <div className="flex-shrink-0 w-[150px] flex flex-col group">
       <Link href={`/book/${book.id}`} className="block">
         <div className="relative w-full h-[210px] rounded-xl overflow-hidden bg-gray-100 shadow-sm group-hover:shadow-md transition-shadow">
-          <Image src={img} alt={book.title} fill className="object-cover" sizes="150px" />
-          <button onClick={(e) => { e.preventDefault(); setW(!w); }}
-            className="absolute top-2 right-2 w-6 h-6 bg-white rounded-full flex items-center justify-center shadow">
-            <Heart size={11} className={w ? "fill-red-500 text-red-500" : "text-gray-400"} />
+          <Image
+            src={img}
+            alt={book.title}
+            fill
+            className="object-cover"
+            sizes="150px"
+          />
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              setW(!w);
+            }}
+            className="absolute top-2 right-2 w-6 h-6 bg-white rounded-full flex items-center justify-center shadow"
+          >
+            <Heart
+              size={11}
+              className={w ? "fill-red-500 text-red-500" : "text-gray-400"}
+            />
           </button>
         </div>
       </Link>
       <div className="mt-2 flex flex-col flex-1">
-        <p className="text-[11px] font-semibold text-gray-800 leading-tight h-[34px] line-clamp-2">{book.title}</p>
-        <Link href={`/book/${book.id}`} className="text-[10px] text-blue-500 mt-1 truncate hover:underline">
+        <p className="text-[11px] font-semibold text-gray-800 leading-tight h-[34px] line-clamp-2">
+          {book.title}
+        </p>
+        <Link
+          href={`/book/${book.id}`}
+          className="text-[10px] text-blue-500 mt-1 truncate hover:underline"
+        >
           by {book.author}
         </Link>
         <div className="mt-auto pt-2">
@@ -113,30 +162,55 @@ function PortraitCard({ img, book }: { img: StaticImageData; book: Book }) {
 }
 
 /* ── 3-column × 3-row grid of horizontal book cards ── */
-function ThreeByThreeGrid({ imgs, books }: { imgs: StaticImageData[]; books: Book[] }) {
+function ThreeByThreeGrid({
+  imgs,
+  books,
+}: {
+  imgs: StaticImageData[];
+  books: Book[];
+}) {
   const gridItems = Array.from({ length: 9 }, (_, i) => ({
-    img:  imgs[i % imgs.length],
+    img: imgs[i % imgs.length],
     book: books[i % Math.max(books.length, 1)],
   }));
 
   return (
     <section className="px-6 py-6 border-t border-gray-100">
-      <h2 className="text-base font-bold text-gray-900 mb-1">Our New Releases</h2>
+      <h2 className="text-base font-bold text-gray-900 mb-1">
+        Our New Releases
+      </h2>
       <p className="text-xs text-gray-400 mb-4">Trending books among readers</p>
 
       <div className="grid grid-cols-3 gap-4">
         {gridItems.map(({ img, book }, i) => (
-          <Link key={i} href={`/book/${book.id}`}
-            className="flex gap-3 group hover:bg-gray-50 rounded-xl p-2 transition-colors">
+          <Link
+            key={i}
+            href={`/book/${book.id}`}
+            className="flex gap-3 group rounded-xl p-2 transition-colors"
+            style={{
+              background: "rgba(255, 254, 250, 1)",
+              border: "1px solid rgba(234, 234, 230, 1)",
+            }}
+          >
             {/* Small portrait cover */}
             <div className="relative w-[72px] h-[96px] rounded-lg overflow-hidden bg-gray-100 flex-shrink-0 shadow-sm">
-              <Image src={img} alt={book.title} fill className="object-cover" sizes="72px" />
+              <Image
+                src={img}
+                alt={book.title}
+                fill
+                className="object-cover"
+                sizes="72px"
+              />
             </div>
             {/* Content */}
             <div className="flex-1 min-w-0 flex flex-col justify-between py-0.5">
               <div>
-                <p className="text-[12px] font-bold text-gray-900 leading-tight line-clamp-2">{book.title}</p>
-                <p className="text-[10px] text-gray-500 mt-1 leading-relaxed line-clamp-3">{book.description}</p>
+                <p className="text-[12px] font-bold text-gray-900 leading-tight line-clamp-2">
+                  {book.title}
+                </p>
+                <p className="text-[10px] text-gray-500 mt-1 leading-relaxed line-clamp-3">
+                  {book.description}
+                </p>
               </div>
               <button className="mt-2 self-start px-3 py-1 bg-gray-900 text-white text-[10px] font-medium rounded-lg hover:bg-gray-700 transition-colors">
                 Read &amp; Chat
@@ -161,7 +235,8 @@ export default function AuthorPageView({ author, books }: Props) {
     author: author.name,
     authorId: author.id,
     cover: "",
-    description: "A clash of armies, a battle of gods, and the rage of a hero fuel this epic tale of war. When a leader's pride ignites a conflict.",
+    description:
+      "A clash of armies, a battle of gods, and the rage of a hero fuel this epic tale of war. When a leader's pride ignites a conflict.",
     publisher: "Ailaysa",
     publicationDate: "21 December 2025",
     language: "English",
@@ -172,38 +247,120 @@ export default function AuthorPageView({ author, books }: Props) {
   };
 
   const displayBooks = books.length > 0 ? books : [fallbackBook];
-  const row1Books = Array.from({ length: 5 }, (_, i) => displayBooks[i % displayBooks.length]);
-  const row2Books = Array.from({ length: 5 }, (_, i) => displayBooks[i % displayBooks.length]);
+  const row1Books = Array.from(
+    { length: 5 },
+    (_, i) => displayBooks[i % displayBooks.length],
+  );
+  const row2Books = Array.from(
+    { length: 5 },
+    (_, i) => displayBooks[i % displayBooks.length],
+  );
 
   return (
     <div style={{ background: "#ffffff" }}>
-      {/* Breadcrumb */}
-      <div className="px-6 pt-5 pb-4 flex items-center gap-1.5 text-xs text-gray-500">
-        <Link href="/" className="hover:text-gray-800 transition-colors">Browse</Link>
-        <ChevronRight size={12} />
-        <span className="text-gray-500">Authors</span>
-        <ChevronRight size={12} />
-        <span className="text-gray-900 font-medium">{author.name}</span>
+      {/* Sticky breadcrumb header — replaces global header on author pages */}
+      <div
+        className="sticky top-0 z-20 h-16 flex items-center px-6 gap-4 border-b border-gray-100"
+        style={{ background: "#ffffff" }}
+      >
+        <div className="flex items-center gap-1.5 text-xs text-gray-500 flex-1">
+          <Link href="/" className="hover:text-gray-800 transition-colors">
+            Browse
+          </Link>
+          <ChevronRight size={12} />
+          <span className="text-gray-500">Authors</span>
+          <ChevronRight size={12} />
+          <span className="text-gray-900 font-medium">{author.name}</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <button
+            className="p-2 rounded-full hover:bg-gray-100 text-gray-600 transition-colors"
+            aria-label="Wishlist"
+          >
+            <Heart size={19} />
+          </button>
+          <button
+            className="p-2 rounded-full hover:bg-gray-100 text-gray-600 transition-colors"
+            aria-label="Cart"
+          >
+            <ShoppingCart size={19} />
+          </button>
+          <button
+            className="ml-1 px-4 py-1.5 text-sm font-medium rounded-full hover:bg-gray-50 transition-colors"
+            style={{
+              border: "1px solid rgb(24, 22, 27)",
+              color: "rgb(24, 22, 27)",
+            }}
+          >
+            Login
+          </button>
+        </div>
       </div>
 
       {/* Author profile */}
       <div className="px-6 pb-6">
         <div className="flex flex-col sm:flex-row gap-6 items-start">
           <div className="relative w-[160px] h-[220px] rounded-xl overflow-hidden bg-gray-100 flex-shrink-0 shadow-md">
-            <Image src={authorPhoto} alt={author.name} fill className="object-cover" sizes="160px" priority />
+            <Image
+              src={authorPhoto}
+              alt={author.name}
+              fill
+              className="object-cover"
+              sizes="160px"
+              priority
+            />
           </div>
           <div className="flex-1">
             <h1 className="text-2xl font-bold text-gray-900">{author.name}</h1>
-            <p className={`text-sm text-gray-500 mt-2 leading-relaxed ${expanded ? "" : "line-clamp-3"}`}>
+            <p
+              className={`text-sm text-gray-500 mt-2 leading-relaxed ${expanded ? "" : "line-clamp-3"}`}
+            >
               {author.bio}
             </p>
-            <button onClick={() => setExpanded(!expanded)}
-              className="mt-1 text-xs text-blue-500 hover:text-blue-700 transition-colors">
-              {expanded ? "Show less ▲" : "Read more ▼"}
+            <button
+              onClick={() => setExpanded(!expanded)}
+              className="mt-1 text-xs text-blue-500 hover:text-blue-700 transition-colors"
+            >
+              {expanded ? (
+                <span
+                  style={{
+                    color: "rgba(24, 73, 120, 1)",
+                    fontSize: "12px",
+                    marginRight: "4px",
+                  }}
+                >
+                  Show less
+                </span>
+              ) : (
+                <span
+                  style={{
+                    color: "rgba(24, 73, 120, 1)",
+                    fontSize: "12px",
+                    marginRight: "4px",
+                  }}
+                >
+                  Read more
+                </span>
+              )}
+              <Image
+                src={readMoreIcon}
+                alt=""
+                width={12}
+                height={12}
+                className="inline"
+              />{" "}
             </button>
             <div className="flex flex-wrap gap-2 mt-4">
-              {author.genres.map((g) => (
-                <span key={g} className="px-3 py-1 rounded-full text-xs font-medium bg-gray-50 text-gray-600 border border-gray-200">
+              {author.genres.map((g, i) => (
+                <span
+                  key={`${g}-${i}`}
+                  className="px-3 py-1 rounded-full text-xs font-medium"
+                  style={{
+                    background: "rgba(224, 244, 255, 1)",
+                    border: "1px solid rgba(163, 223, 255, 1)",
+                    color: "rgba(26, 26, 28, 1)",
+                  }}
+                >
                   {g}
                 </span>
               ))}
@@ -224,7 +381,6 @@ export default function AuthorPageView({ author, books }: Props) {
 
       {/* 3×3 grid of horizontal book cards */}
       <ThreeByThreeGrid imgs={newReleaseImgs} books={displayBooks} />
-
     </div>
   );
 }

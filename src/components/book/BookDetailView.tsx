@@ -285,7 +285,11 @@ export default function BookDetailView({ book, author }: Props) {
                       href={`/author/${author.id}`}
                       className="text-sm font-semibold text-blue-500 hover:underline"
                     >
-                      {author.name}
+                      {
+                        <span style={{ color: "rgba(70, 38, 166, 1)" }}>
+                          {author.name}
+                        </span>
+                      }
                     </Link>
                   ) : (
                     <span className="text-sm font-semibold text-blue-500">

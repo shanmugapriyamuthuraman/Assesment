@@ -4,6 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { useState, useEffect } from "react";
+import bannerBookImg from "@/assets/bannerBookImg.png";
+import ArrowIcon from "@/assets/ArrowIcon.png";
 
 const slides = [
   {
@@ -14,21 +16,6 @@ const slides = [
       "A global publishing technology pavilion designed to run alongside major international book fairs.",
     cta: "Explore More",
     href: "/book/death-before-breakfast",
-    cover:
-      "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=500&h=600&fit=crop",
-    bg: "from-gray-50 to-gray-100",
-  },
-  {
-    id: 2,
-    title: "Discover",
-    titleHighlight: "New Stories",
-    subtitle:
-      "Explore thousands of books across every genre. Read, chat, and connect with your favorite authors.",
-    cta: "Browse Books",
-    href: "/",
-    cover:
-      "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=500&h=600&fit=crop",
-    bg: "from-amber-50 to-orange-50",
   },
 ];
 
@@ -46,16 +33,16 @@ export default function HeroBanner() {
   const slide = slides[current];
 
   return (
-    <div className="relative overflow-hidden">
+    <div className="relative">
       <div
-        className="flex items-center justify-between min-h-[180px] md:min-h-[200px] px-10 md:px-15 py-6"
+        className="relative flex items-center min-h-[180px] md:min-h-[200px] px-10 md:px-15 py-6 overflow-visible"
         style={{
           background: "rgba(255, 255, 255, 1)",
-          width: "100%",
-          marginLeft: "2% ",
+          width: "95%",
+          marginLeft: "2%",
           borderRadius: "10px",
-          marginTop: "20px",
-          border: "1px solid rgba(233, 233, 233, 1) ",
+          marginTop: "40px",
+          border: "1px solid rgba(233, 233, 233, 1)",
         }}
       >
         <div className="flex-1 max-w-xs">
@@ -71,34 +58,26 @@ export default function HeroBanner() {
             className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-gray-900 hover:gap-2.5 transition-all"
           >
             {slide.cta}
-            <ArrowRight size={14} />
+            <Image
+              src={ArrowIcon}
+              alt=""
+              width={37}
+              height={11}
+              className="inline mt-1"
+            />{" "}
           </Link>
         </div>
 
-        <div className="hidden sm:block relative w-32 md:w-40 h-40 md:h-52 flex-shrink-0">
+        {/* Image positioned absolute — doesn't affect box height */}
+        <div className="hidden sm:block absolute right-6 md:right-10 top-1/2 -translate-y-1/2 w-56 md:w-72 lg:w-80 h-46 md:h-52 lg:h-70 z-10">
           <Image
-            src={slide.cover}
+            src={bannerBookImg}
             alt={slide.titleHighlight}
             fill
-            className="object-cover rounded-xl shadow-lg"
+            className="object-contain"
             priority
           />
         </div>
-      </div>
-
-      {/* Dot indicators */}
-      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
-        {slides.map((_, i) => (
-          <button
-            key={i}
-            onClick={() => setCurrent(i)}
-            className={`rounded-full transition-all ${
-              i === current
-                ? "w-4 h-1.5 bg-gray-700"
-                : "w-1.5 h-1.5 bg-gray-400"
-            }`}
-          />
-        ))}
       </div>
     </div>
   );
